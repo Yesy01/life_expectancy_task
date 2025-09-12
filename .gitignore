@@ -1,0 +1,16 @@
+# Ignore data folder (don’t push raw CSVs)
+data/
+!data/.gitkeep
+
+# Ignore notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+
+# Ignore OS junk
+.DS_Store
+Thumbs.db
+
+notebooks/*.csv
