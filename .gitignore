@@ -12,3 +12,5 @@ __pycache__/
 # Ignore OS junk
 .DS_Store
 Thumbs.db
+
+notebooks/*.csv
