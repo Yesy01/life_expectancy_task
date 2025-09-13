@@ -9,7 +9,7 @@ class Preprocessor:
     From-scratch preprocessor for the Life Expectancy task.
 
     - Normalizes column names.
-    - Applies your EDA rules (zero->NaN for specific cols, ffill/bfill by country,
+    - Applies EDA rules (zero->NaN for specific cols, ffill/bfill by country,
       status/year medians, winsorize BMI, log1p on skewed counts).
     - Encodes status (drop-first one-hot), drops country & year from features.
     - Scales numerics with stored mean/std (no sklearn).
@@ -116,13 +116,13 @@ class Preprocessor:
             out[:, i] = (s.values == cat).astype(float)
         return out
 
-    # ---------- public API ----------
+
     def fit(self, df: pd.DataFrame) -> "Preprocessor":
         df = self._normalize_names(df)
         df = self._to_numeric_safely(df)
         df = self._sort_for_time(df)
 
-        # zero -> NaN policy (your table)
+        # zero -> NaN 
         self._zero_to_nan(df, [
             "gdp", "population", "adult_mortality", "bmi",
             "percentage_expenditure", "income_composition_of_resources",

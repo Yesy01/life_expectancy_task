@@ -1,16 +1,14 @@
-# Ignore data folder (don’t push raw CSVs)
-data/
+@"
+data/*.csv
 !data/.gitkeep
-
-# Ignore notebook checkpoints
-.ipynb_checkpoints/
-
-# Ignore Python cache
 __pycache__/
 *.pyc
-
-# Ignore OS junk
+.ipynb_checkpoints/
 .DS_Store
 Thumbs.db
+# don't need to submit
+*.npy
+"@ | Set-Content .gitignore
 
-notebooks/*.csv
+# keep data/ in repo without the CSV
+New-Item data\.gitkeep -Type file -Force | Out-Null
