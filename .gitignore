@@ -1,14 +1,18 @@
 @"
+# do NOT commit raw data
 data/*.csv
 !data/.gitkeep
+
+# python
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
+
+# OS/editor junk
 .DS_Store
 Thumbs.db
-# don't need to submit
-*.npy
 "@ | Set-Content .gitignore
 
-# keep data/ in repo without the CSV
+# keep the data/ folder in git
 New-Item data\.gitkeep -Type file -Force | Out-Null
+
