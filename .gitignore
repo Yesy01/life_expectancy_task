@@ -1,0 +1,14 @@
+@"
+data/*.csv
+!data/.gitkeep
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store
+Thumbs.db
+# don't need to submit
+*.npy
+"@ | Set-Content .gitignore
+
+# keep data/ in repo without the CSV
+New-Item data\.gitkeep -Type file -Force | Out-Null
