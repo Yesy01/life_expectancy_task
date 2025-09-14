@@ -1,0 +1,11 @@
+# Core
+numpy
+pandas
+scikit-learn
+
+# Optional / EDA
+matplotlib
+seaborn
+
+# Project-specific
+argparse
