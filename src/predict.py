@@ -1,3 +1,8 @@
+"""
+Predict Script - Robust Version
+Evaluation and metrics generation following assignment specifications
+"""
+
 import numpy as np
 import pandas as pd
 import pickle
@@ -44,7 +49,7 @@ def load_and_preprocess_data(data_path, preprocessor_path='models/preprocessor.p
         else:
             preprocessor = None
 
-        # Case 1: DataPreprocessor object saved
+        # Case 1: RobustDataPreprocessor object saved
         if preprocessor is not None and hasattr(preprocessor, "preprocess_pipeline"):
             data = preprocessor.preprocess_pipeline(data_path)
             X = data['X_train_scaled']
@@ -53,7 +58,7 @@ def load_and_preprocess_data(data_path, preprocessor_path='models/preprocessor.p
 
         # Case 2: dict metadata (from data_pp1y.py compatibility mode)
         elif isinstance(preprocessor, dict):
-            print("Info: Preprocessor is metadata dict, loading processed arrays directly:")
+            print("Info: Preprocessor is metadata dict, loading processed arrays directly...")
             X = np.load("data/processed/X_train_scaled.npy")
             y = np.load("data/processed/y_train.npy")
             return X, y
@@ -143,10 +148,9 @@ def main():
     
     args = parser.parse_args()
     
-    print("MODEL EVALUATION")
-    
+    print("MODEL EVALUATION")    
     # Load model
-    print("\n1. Loading model:")
+    print("\n1. Loading model...")
     model = load_model(args.model_path)
     if model is None:
         print(" Failed to load model")
@@ -154,7 +158,7 @@ def main():
     print(f"   Model loaded: {type(model).__name__}")
     
     # Load and preprocess data
-    print("\n2. Loading and preprocessing data:")
+    print("\n2. Loading and preprocessing data...")
     try:
         X, y = load_and_preprocess_data(args.data_path)
         print(f"   Data shape: {X.shape}")
@@ -164,7 +168,7 @@ def main():
         return
     
     # Make predictions
-    print("\n3. Making predictions:")
+    print("\n3. Making predictions...")
     try:
         predictions = model.predict(X)
         predictions = np.array(predictions).flatten()
@@ -174,7 +178,7 @@ def main():
         return
     
     # Calculate metrics
-    print("\n4. Calculating metrics:")
+    print("\n4. Calculating metrics...")
     try:
         mse, rmse, r2 = calculate_metrics(y, predictions)
         print(f"   MSE: {mse:.2f}")
@@ -185,7 +189,7 @@ def main():
         return
     
     # Save results
-    print("\n5. Saving results:")
+    print("\n5. Saving results...")
     metrics_saved = save_metrics(args.metrics_output_path, mse, rmse, r2)
     predictions_saved = save_predictions(args.predictions_output_path, predictions)
     

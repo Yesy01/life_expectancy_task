@@ -1,3 +1,7 @@
+"""
+Train Model Module - Robust Version
+Implements regression algorithms with numerical stability
+"""
 
 import numpy as np
 import pickle
@@ -253,11 +257,11 @@ def evaluate_model(model, X_train, y_train, X_val, y_val):
 
 
 def main():
-    print(" MODEL TRAINING PIPELINE")
-
+    """Main training pipeline"""
+    print("MODEL TRAINING PIPELINE")
     
     # Load preprocessed data
-    print("\n1. Loading preprocessed data:")
+    print("\n1. Loading preprocessed data...")
     try:
         X_train = np.load('data/processed/X_train_scaled.npy')
         y_train = np.load('data/processed/y_train.npy')
@@ -276,7 +280,7 @@ def main():
         return
     
     # Define models
-    print("\n2. Training models:")
+    print("\n2. Training models...")
     models = {
         'Linear Regression': RobustLinearRegression(regularization=1e-8),
         'Polynomial (deg=2)': RobustPolynomialRegression(degree=2, regularization=1e-6),
@@ -293,7 +297,7 @@ def main():
     best_name = None
     
     for name, model in models.items():
-        print(f"\n   Training {name}:")
+        print(f"\n   Training {name}...")
         try:
             start_time = time.time()
             model.fit(X_train, y_train)
@@ -317,13 +321,15 @@ def main():
             continue
     
     if best_model is None:
-        print("\n No models trained successfully!")
+        print("\nNo models trained successfully!")
         return
     
     print(f"\n3. Best model: {best_name} (Val R² = {best_score:.4f})")
     
-    print("\n4. Saving models:")
+    # Save models with assignment naming
+    print("\n4. Saving models...")
     
+    # Assignment-required naming
     model_mapping = {
         'regression_model1.pkl': models.get('Linear Regression', models.get('Ridge (α=1.0)')),
         'regression_model2.pkl': models.get('Polynomial (deg=2)', models.get('Ridge (α=0.1)')),
@@ -347,8 +353,8 @@ def main():
     
     # Print summary
     print("TRAINING SUMMARY")
-
     print(f"{'Model':<20} {'Train RMSE':<12} {'Val RMSE':<12} {'Val R²':<10}")
+    print("-"*54)
     for name, metrics in results.items():
         print(f"{name:<20} {metrics['train_rmse']:<12.4f} {metrics['val_rmse']:<12.4f} {metrics['val_r2']:<10.4f}")
     
